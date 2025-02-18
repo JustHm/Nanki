@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct QuizView: View {
+    @State var list: [Word]
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
 #Preview {
-    QuizView()
+    @Previewable var temp = [Word(title: "HIHIHIHIHIHIHIHIHIHIHIHIHHIHIHIHIHHIHIHIHIHHIHIHIHIHIHIHHIHIHIHIHHIHIHIHIHHIHIHIHIHHIHIHIHIHHIHIHIHIHI", meaning: "IH")]
+    QuizView(list: temp)
 }
