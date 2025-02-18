@@ -23,6 +23,6 @@ struct ToastMessage: View {
             
         }
         .padding(.bottom, 40)
-        .animation(.easeInOut(duration: 0.5), value: showToast)
+        .animation(.easeInOut(duration: 0.1), value: showToast)
     }
 }
