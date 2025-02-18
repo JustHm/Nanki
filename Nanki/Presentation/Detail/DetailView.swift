@@ -40,14 +40,15 @@ struct DetailView: View {
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
                 
-                Section {
+                DisclosureGroup("단어 퀴즈") {
                     NavigationLink {
                         QuizView(list: list.wordList)
                     } label: {
-                        Text("단어퀴즈")
+                        Text("주관식 퀴즈")
                     }
                     .disabled(list.wordList.isEmpty)
                 }
+
                 Section("단어 \(list.wordList.count)개") {
                     ForEach(list.wordList, id: \.title) { item in
                         WordListCell(word: item.title, meaning: item.meaning)
