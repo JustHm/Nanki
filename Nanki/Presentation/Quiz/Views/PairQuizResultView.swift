@@ -36,6 +36,7 @@ struct PairQuizResultView: View {
                         HStack(spacing: 16) {
                             Text("\(item.offset + 1)")
                                 .bold()
+                            Spacer()
                             Text("⏱️ \(item.element)")
                         }
                         

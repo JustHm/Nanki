@@ -43,15 +43,7 @@ class PairQuizViewModel: ObservableObject {
                 return (title, meaning)
             }
             .sink { [weak self] (title, meaning) in
-                //여기서 정답체크
-                if title == meaning,
-                   let leftIndex = self?.leftTitles.firstIndex(where: { $0.id == title}),
-                   let rightIndex = self?.rightMeanings.firstIndex(where: { $0.id == title})
-                {
-                    self?.matchCount += 1
-                    self?.leftTitles[leftIndex].isMatched = true
-                    self?.rightMeanings[rightIndex].isMatched = true
-                    
+                if (self?.checkAnswer(titleID: title, meaningID: meaning) == true) {
                     if (self?.list.isEmpty == true) && (self?.matchCount == 4) {
                         self?.gameOver()
                     }
@@ -116,7 +108,20 @@ extension PairQuizViewModel {
         addLeaderBoard()
         isEnded = true
     }
-    
+    private func checkAnswer(titleID: UUID, meaningID: UUID) -> Bool {
+        if titleID == meaningID,
+           let leftIndex = self.leftTitles.firstIndex(where: { $0.id == titleID}),
+           let rightIndex = self.rightMeanings.firstIndex(where: { $0.id == titleID})
+        {
+            matchCount += 1
+            leftTitles[leftIndex].isMatched = true
+            rightMeanings[rightIndex].isMatched = true
+            return true
+        }
+        else {
+            return false
+        }
+    }
     private func addLeaderBoard() {
         let key = "leaderBoard"
         var list = UserDefaults.standard.stringArray(forKey: key) ?? []
