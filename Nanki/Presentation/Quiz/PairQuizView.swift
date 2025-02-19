@@ -11,7 +11,7 @@ struct PairQuizView: View {
     @StateObject var viewModel: PairQuizViewModel
     @Environment(\.dismiss) var dismiss
     
-    init(list: [Word]) {
+    init(list: WordSet) {
         _viewModel = StateObject(
             wrappedValue: PairQuizViewModel(list: list)
         )
@@ -20,8 +20,8 @@ struct PairQuizView: View {
     var body: some View {
         VStack {
             Text("⏱️\(formatSecondsToMinutesSeconds(viewModel.timeCount))")
-                            .font(.title)
-                            .bold()
+                .font(.title)
+                .bold()
             PairCardView(viewModel: viewModel)
         }
         .padding([.top, .bottom], 16)
@@ -43,12 +43,14 @@ struct PairQuizView: View {
 }
 
 #Preview {
-    PairQuizView(list: [
-        Word(title: "HI1", meaning: "KEY1"),
-        Word(title: "HI2", meaning: "KEY2"),
-        Word(title: "HI3", meaning: "KEY3"),
-        Word(title: "HI4", meaning: "KEY4"),
-        Word(title: "HI5", meaning: "KEY5"),
-        Word(title: "HI6", meaning: "KEY6")
-    ])
+    PairQuizView(
+        list: WordSet(title: "HI", wordList: [
+            Word(title: "HI1", meaning: "KEY1"),
+            Word(title: "HI2", meaning: "KEY2"),
+            Word(title: "HI3", meaning: "KEY3"),
+            Word(title: "HI4", meaning: "KEY4"),
+            Word(title: "HI5", meaning: "KEY5"),
+            Word(title: "HI6", meaning: "KEY6")
+        ])
+    )
 }

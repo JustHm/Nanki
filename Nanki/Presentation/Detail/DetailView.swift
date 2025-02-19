@@ -54,7 +54,7 @@ struct DetailView: View {
                     }
                     .disabled(list.wordList.count < 4)
                     NavigationLink {
-                        PairQuizView(list: list.wordList)
+                        PairQuizView(list: list)
                     } label: {
                         Text("짝 맞추기 게임")
                     }

@@ -18,13 +18,15 @@ class PairQuizViewModel: ObservableObject {
     @Published var elapsedTime: String = ""
     
     private var list: [Word]
+    private let WordSetID: UUID
     private var timer: Timer?
     private var matchCount: Int = 0
     private var cancelBag = Set<AnyCancellable>()
     let colors: [Color] = [.blue, .green, .orange, .brown, .green, .gray, .purple, .black, .cyan, .indigo, .mint, .pink]
     
-    init(list: [Word]) {
-        self.list = list.shuffled()
+    init(list: WordSet) {
+        self.list = list.wordList.shuffled()
+        self.WordSetID = list.id
         setCardsData()
         
         // 타이머 시작
@@ -60,7 +62,7 @@ class PairQuizViewModel: ObservableObject {
     }
     
     func getLeaderBoard() -> [String] {
-        let key = "leaderBoard"
+        let key = "leaderBoard\(WordSetID)"
         let list = UserDefaults.standard.stringArray(forKey: key) ?? []
         return list
     }
@@ -123,7 +125,7 @@ extension PairQuizViewModel {
         }
     }
     private func addLeaderBoard() {
-        let key = "leaderBoard"
+        let key = "leaderBoard\(WordSetID)"
         var list = UserDefaults.standard.stringArray(forKey: key) ?? []
         list.append(elapsedTime)  // 새로운 값 추가
         UserDefaults.standard.set(list.sorted(by: <), forKey: key)
