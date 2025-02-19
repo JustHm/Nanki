@@ -72,7 +72,7 @@ struct QuizView: View {
 
 extension QuizView {
     private func next() {
-        let correct = list[index].meaning.split(whereSeparator: {["(", ")", ",", " "].contains($0)})
+        let correct = list[index].meaning.split(whereSeparator: {["(", ")", ",", " ", ";"].contains($0)})
         if correct.contains(where: {$0 == userAnswer}){
             toastMessage = "정답입니다!"
             correctCount += 1
