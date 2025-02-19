@@ -52,7 +52,7 @@ struct MultipleChoiceQuizView: View {
                         withAnimation { checkAnswer() }
                     }) {
                         Text(option)
-                            .foregroundColor(.black)  // 글자색 검정으로 통일
+//                            .foregroundColor(.black)  // 글자색 검정으로 통일
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(

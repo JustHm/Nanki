@@ -22,7 +22,7 @@ class PairQuizViewModel: ObservableObject {
     private var timer: Timer?
     private var matchCount: Int = 0
     private var cancelBag = Set<AnyCancellable>()
-    let colors: [Color] = [.blue, .green, .orange, .brown, .green, .gray, .purple, .black, .cyan, .indigo, .mint, .pink]
+    let colors: [Color] = [.blue, .green, .orange, .brown, .green, .gray, .purple, .cyan, .indigo, .mint, .pink]
     
     init(list: WordSet) {
         self.list = list.wordList.shuffled()
