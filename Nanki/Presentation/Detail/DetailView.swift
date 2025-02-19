@@ -48,7 +48,7 @@ struct DetailView: View {
                     }
                     .disabled(list.wordList.isEmpty)
                     NavigationLink {
-                        PairQuizView(list: list.wordList)
+                        MultipleChoiceQuizView(list: list.wordList)
                     } label: {
                         Text("객관식 퀴즈")
                     }
