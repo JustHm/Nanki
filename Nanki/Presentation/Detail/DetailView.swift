@@ -47,6 +47,18 @@ struct DetailView: View {
                         Text("주관식 퀴즈")
                     }
                     .disabled(list.wordList.isEmpty)
+                    NavigationLink {
+                        PairQuizView(list: list.wordList)
+                    } label: {
+                        Text("객관식 퀴즈")
+                    }
+                    .disabled(list.wordList.count < 4)
+                    NavigationLink {
+                        PairQuizView(list: list.wordList)
+                    } label: {
+                        Text("짝 맞추기 게임")
+                    }
+                    .disabled(list.wordList.count < 4)
                 }
 
                 Section("단어 \(list.wordList.count)개") {
