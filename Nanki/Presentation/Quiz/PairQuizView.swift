@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PairQuizView: View {
     @StateObject var viewModel: PairQuizViewModel
+    @Environment(\.dismiss) var dismiss
     
     init(list: [Word]) {
         _viewModel = StateObject(
@@ -18,12 +19,26 @@ struct PairQuizView: View {
     
     var body: some View {
         VStack {
-            Text("⏱️\(viewModel.timeCount)")
+            Text("⏱️\(formatSecondsToMinutesSeconds(viewModel.timeCount))")
                             .font(.title)
                             .bold()
             PairCardView(viewModel: viewModel)
         }
         .padding([.top, .bottom], 16)
+        .sheet(isPresented: $viewModel.isEnded) {
+            PairQuizResultView(elapsedTime: viewModel.elapsedTime, leaderBoard: viewModel.getLeaderBoard())
+                .onDisappear {
+                    dismiss()
+                }
+        }
+    }
+    
+    func formatSecondsToMinutesSeconds(_ seconds: Int) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second] // 분, 초만 표시
+        formatter.unitsStyle = .positional // "0:00" 형식
+        formatter.zeroFormattingBehavior = .pad // 01:05 같은 형식 유지
+        return formatter.string(from: TimeInterval(seconds)) ?? "0:00"
     }
 }
 

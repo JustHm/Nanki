@@ -14,6 +14,8 @@ class PairQuizViewModel: ObservableObject {
     @Published var leftTitles: [PairCard] = []
     @Published var rightMeanings: [PairCard] = []
     @Published var timeCount: Int = 0
+    @Published var isEnded: Bool = false
+    @Published var elapsedTime: String = ""
     
     private var list: [Word]
     private var timer: Timer?
@@ -26,9 +28,14 @@ class PairQuizViewModel: ObservableObject {
         setCardsData()
         
         // 타이머 시작
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            self.timeCount += 1
+        timer = Timer.scheduledTimer(
+            withTimeInterval: 1.0,
+            repeats: true) { [weak self] _ in
+            self?.timeCount += 1
         }
+        $timeCount
+            .map{self.formatSecondsToMinutesSeconds($0)}
+            .assign(to: &$elapsedTime)
         
         $selectedTitle.combineLatest($selectedMeaning)
             .compactMap { title, meaning -> (UUID, UUID)? in
@@ -45,9 +52,8 @@ class PairQuizViewModel: ObservableObject {
                     self?.leftTitles[leftIndex].isMatched = true
                     self?.rightMeanings[rightIndex].isMatched = true
                     
-                    if (self?.list.isEmpty == true) {
-                        print("GameOver")
-                        self?.stopTimer()
+                    if (self?.list.isEmpty == true) && (self?.matchCount == 4) {
+                        self?.gameOver()
                     }
                     else if (self?.matchCount == 4) {
                         withAnimation{ self?.setCardsData() }
@@ -61,7 +67,15 @@ class PairQuizViewModel: ObservableObject {
             .store(in: &cancelBag)
     }
     
-    func setCardsData() {
+    func getLeaderBoard() -> [String] {
+        let key = "leaderBoard"
+        let list = UserDefaults.standard.stringArray(forKey: key) ?? []
+        return list
+    }
+}
+
+extension PairQuizViewModel {
+    private func setCardsData() {
         matchCount = 0
         leftTitles.removeAll()
         rightMeanings.removeAll()
@@ -91,25 +105,33 @@ class PairQuizViewModel: ObservableObject {
         list.removeLast(cardCount)
     }
     
-    func resetSelection() {
+    private func resetSelection() {
         selectedTitle = nil
         selectedMeaning = nil
     }
     
-    // 타이머 정지
-    func stopTimer() {
+    private func gameOver() {
         timer?.invalidate()
         timer = nil
+        addLeaderBoard()
+        isEnded = true
+    }
+    
+    private func addLeaderBoard() {
+        let key = "leaderBoard"
+        var list = UserDefaults.standard.stringArray(forKey: key) ?? []
+        list.append(elapsedTime)  // 새로운 값 추가
+        UserDefaults.standard.set(list.sorted(by: <), forKey: key)
+    }
+    
+    private func formatSecondsToMinutesSeconds(_ seconds: Int) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second] // 분, 초만 표시
+        formatter.unitsStyle = .positional // "0:00" 형식
+        formatter.zeroFormattingBehavior = .pad // 01:05 같은 형식 유지
+        return formatter.string(from: TimeInterval(seconds)) ?? "0:00"
     }
 }
 
-struct PairCard {
-    var id: UUID
-    var name: String
-    var isMatched: Bool
-    var color: Color
-    
-    var opacity: CGFloat {
-        isMatched ? 0.5 : 1.0
-    }
-}
+
+

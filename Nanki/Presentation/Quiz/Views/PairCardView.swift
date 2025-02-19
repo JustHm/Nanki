@@ -34,7 +34,6 @@ struct PairCardView: View {
                 .animation(.easeInOut(duration: 0.1), value: viewModel.selectedTitle)
             }
             VStack {
-//                ForEach($viewModel.rightMeanings, id: \.id) { $item in
                 ForEach(viewModel.rightMeanings, id: \.id) { item in
                     RoundedRectangle(cornerRadius: 16)
                         .foregroundStyle(item.color)
