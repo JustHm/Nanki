@@ -17,12 +17,6 @@ struct WordSet: Codable, Identifiable {
         self.title = title
         self.wordList = wordList
     }
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case wordList
-    }
 }
 
 struct Word: Codable, Hashable{

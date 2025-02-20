@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct NankiApp: App {
+    @StateObject var store = WordStore()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                HomeView()
+                    .environmentObject(store)
+            }
+//            ContentView()
         }
     }
 }
