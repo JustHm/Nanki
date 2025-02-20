@@ -13,6 +13,9 @@ struct CustomInputView: View {
     @State private var meaningInput: String = ""
     @Binding var words: [Word]
     
+    @FocusState private var wordFocus: Bool
+    @FocusState private var meaningFocus: Bool
+    
     let id: UUID
     let selectedWordIndex: Int?
     
@@ -20,9 +23,14 @@ struct CustomInputView: View {
         List {
             Section("단어") {
                 TextField("Input Word", text: $wordInput)
+                    .onSubmit { meaningFocus = true }
+                    .focused($wordFocus)
+                    .submitLabel(.done)
             }
             Section("의미") {
                 TextField("Input meaning", text: $meaningInput)
+                    .focused($meaningFocus)
+                    .submitLabel(.done)
             }
         }
         .onAppear {
