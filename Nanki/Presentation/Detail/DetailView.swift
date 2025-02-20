@@ -102,6 +102,7 @@ struct DetailView: View {
                 }
                 .background(Circle().fill(Color.blue))
                 .frame(width: 64, height: 64)
+                .offset(x:-15)
             }
         }
         .sheet(isPresented: $addsheet, content: {
