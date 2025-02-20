@@ -24,7 +24,7 @@ struct WordListCell: View {
                 .foregroundStyle(.gray)
         }
         .padding(.vertical, 4)
-        .fixedSize(horizontal: false, vertical: true)
+//        .fixedSize(horizontal: false, vertical: true)
     }
 }
 

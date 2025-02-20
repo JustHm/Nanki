@@ -12,7 +12,9 @@ struct DetailView: View {
     @State private var isAdded: Bool = false
     @State private var addsheet: Bool = false
     @State private var title: String
+    @State var selectedWordIndex: Int?
     var isCanEdit: Bool
+    
     
     init(list: Binding<WordSet>, isCanEdit: Bool) {
         //Property Wrapper가 달려있는 변수의경우 _를 붙여서 접근할 수 있다.
@@ -34,6 +36,7 @@ struct DetailView: View {
                             .submitLabel(.done)
                             .onSubmit {
                                 list.title = title
+                                addsheet.toggle()
                             }
                         Divider().background(.blue)
                     }
@@ -63,8 +66,16 @@ struct DetailView: View {
                 }
 
                 Section("단어 \(list.wordList.count)개") {
-                    ForEach(list.wordList, id: \.title) { item in
-                        WordListCell(word: item.title, meaning: item.meaning)
+                    ForEach(Array(list.wordList.enumerated()), id: \.offset) { item in
+                        WordListCell(
+                            word: item.element.title,
+                            meaning: item.element.meaning
+                        )
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .onTapGesture {
+                            selectedWordIndex = item.offset
+                            addsheet.toggle()
+                        }
                     }
                     .onDelete { index in
                         withAnimation {
@@ -91,7 +102,14 @@ struct DetailView: View {
         }
         .sheet(isPresented: $addsheet, content: {
             NavigationView {
-                CustomInputView(words: $list.wordList, id: list.id)
+                CustomInputView(
+                    words: $list.wordList,
+                    id: list.id,
+                    selectedWordIndex: selectedWordIndex
+                )
+                .onDisappear {
+                    selectedWordIndex = nil
+                }
             }
             .presentationDetents([.medium])
         })

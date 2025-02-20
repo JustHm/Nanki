@@ -14,6 +14,7 @@ struct CustomInputView: View {
     @Binding var words: [Word]
     
     let id: UUID
+    let selectedWordIndex: Int?
     
     var body: some View {
         List {
@@ -24,13 +25,29 @@ struct CustomInputView: View {
                 TextField("Input meaning", text: $meaningInput)
             }
         }
+        .onAppear {
+            if let selectedWordIndex {
+                let word = words[selectedWordIndex]
+                wordInput = word.title
+                meaningInput = word.meaning
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("추가", action: {
-                    guard wordInput != "", meaningInput != "" else { return }
-                    words.append(Word(title: wordInput, meaning: meaningInput))
-                    dismiss()
-                })
+                if let selectedWordIndex {
+                    Button("수정", action: {
+                        guard wordInput != "", meaningInput != "" else { return }
+                        words[selectedWordIndex] = Word(title: wordInput, meaning: meaningInput)
+                        dismiss()
+                    })
+                }
+                else {
+                    Button("추가", action: {
+                        guard wordInput != "", meaningInput != "" else { return }
+                        words.append(Word(title: wordInput, meaning: meaningInput))
+                        dismiss()
+                    })
+                }
             }
             ToolbarItem(placement: .topBarLeading) {
                 Button("취소", action: {
