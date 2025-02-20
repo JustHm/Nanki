@@ -27,6 +27,7 @@ struct CustomInputView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("추가", action: {
+                    guard wordInput != "", meaningInput != "" else { return }
                     words.append(Word(title: wordInput, meaning: meaningInput))
                     dismiss()
                 })

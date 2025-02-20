@@ -31,6 +31,7 @@ struct DetailView: View {
                             .font(.largeTitle)
                             .bold()
                             .disabled(!isCanEdit)
+                            .submitLabel(.done)
                             .onSubmit {
                                 list.title = title
                             }
