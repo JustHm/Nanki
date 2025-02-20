@@ -19,9 +19,9 @@ struct DetailView: View {
     init(list: Binding<WordSet>, isCanEdit: Bool) {
         //Property Wrapper가 달려있는 변수의경우 _를 붙여서 접근할 수 있다.
         //State를 기본값을 받아 초기화 하는경우 State(initialValue:) 함수를 사용해 초기화할 수 있다.
-            _list = list
-            _title = State(initialValue: list.wrappedValue.title)
-            self.isCanEdit = isCanEdit
+        _list = list
+        _title = State(initialValue: list.wrappedValue.title)
+        self.isCanEdit = isCanEdit
     }
     
     var body: some View {
@@ -64,7 +64,7 @@ struct DetailView: View {
                     }
                     .disabled(list.wordList.count < 4)
                 }
-
+                
                 Section("단어 \(list.wordList.count)개") {
                     ForEach(Array(list.wordList.enumerated()), id: \.offset) { item in
                         WordListCell(
@@ -73,8 +73,10 @@ struct DetailView: View {
                         )
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onTapGesture {
-                            selectedWordIndex = item.offset
-                            addsheet.toggle()
+                            if isCanEdit {
+                                selectedWordIndex = item.offset
+                                addsheet.toggle()
+                            }
                         }
                     }
                     .onDelete { index in
@@ -120,7 +122,7 @@ struct DetailView: View {
     @Previewable @State var list = WordSet(title: "HI", wordList: [])
     NavigationView {
         DetailView(list: $list,
-                 isCanEdit: true
+                   isCanEdit: true
         )
     }
 }
