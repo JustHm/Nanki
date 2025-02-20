@@ -13,16 +13,18 @@ struct WordListCell: View {
     var body: some View {
         HStack {
             Text(word)
+                .foregroundStyle(.primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(nil)
             Divider()
             Text(meaning)
+                .foregroundStyle(.gray)
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .lineLimit(nil)
                 .multilineTextAlignment(.trailing)
                 .bold()
-                .foregroundStyle(.gray)
         }
+//        .frame(maxWidth: .infinity)
         .padding(.vertical, 4)
 //        .fixedSize(horizontal: false, vertical: true)
     }

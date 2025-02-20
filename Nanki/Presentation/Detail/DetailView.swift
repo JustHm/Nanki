@@ -36,7 +36,6 @@ struct DetailView: View {
                             .submitLabel(.done)
                             .onSubmit {
                                 list.title = title
-                                addsheet.toggle()
                             }
                         Divider().background(.blue)
                     }
@@ -67,16 +66,17 @@ struct DetailView: View {
                 
                 Section("단어 \(list.wordList.count)개") {
                     ForEach(Array(list.wordList.enumerated()), id: \.offset) { item in
-                        WordListCell(
-                            word: item.element.title,
-                            meaning: item.element.meaning
-                        )
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .onTapGesture {
+                        Button {
                             if isCanEdit {
                                 selectedWordIndex = item.offset
                                 addsheet.toggle()
                             }
+                        } label: {
+                            WordListCell(
+                                word: item.element.title,
+                                meaning: item.element.meaning
+                            )
+                            .tint(Color.primary) // 버튼에서는 텍스트색을 tint로 바꿔야함.
                         }
                     }
                     .onDelete { index in

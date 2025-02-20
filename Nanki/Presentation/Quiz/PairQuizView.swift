@@ -19,7 +19,7 @@ struct PairQuizView: View {
     
     var body: some View {
         VStack {
-            Text("⏱️\(formatSecondsToMinutesSeconds(viewModel.timeCount))")
+            Text("⏱️\(viewModel.elapsedTime)")
                 .font(.title)
                 .bold()
             PairCardView(viewModel: viewModel)
@@ -31,14 +31,6 @@ struct PairQuizView: View {
                     dismiss()
                 }
         }
-    }
-    
-    func formatSecondsToMinutesSeconds(_ seconds: Int) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.minute, .second] // 분, 초만 표시
-        formatter.unitsStyle = .positional // "0:00" 형식
-        formatter.zeroFormattingBehavior = .pad // 01:05 같은 형식 유지
-        return formatter.string(from: TimeInterval(seconds)) ?? "0:00"
     }
 }
 
