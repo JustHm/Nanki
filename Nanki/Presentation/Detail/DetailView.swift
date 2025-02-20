@@ -86,6 +86,8 @@ struct DetailView: View {
                     }
                     .deleteDisabled(!isCanEdit)
                 }
+                Spacer()
+                    .listRowBackground(Color.clear)
             }
         }
         .overlay(alignment: .bottomTrailing) {
