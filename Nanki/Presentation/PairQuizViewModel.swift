@@ -46,7 +46,7 @@ class PairQuizViewModel: ObservableObject {
             }
             .sink { [weak self] (title, meaning) in
                 if (self?.checkAnswer(titleID: title, meaningID: meaning) == true) {
-                    if (self?.list.isEmpty == true) && (self?.matchCount == 4) {
+                    if (self?.list.isEmpty == true) && (self?.matchCount == self?.leftTitles.count) {
                         self?.gameOver()
                     }
                     else if (self?.matchCount == 4) {
